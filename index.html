@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heineken: La Cervecería Conectada</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-deep: #003A1C;
+    --green-dark: #006030;
+    --green-mid: #008040;
+    --green-bright: #00A850;
+    --green-light: #C8F0D8;
+    --green-pale: #E8F5EE;
+    --gold: #D4A017;
+    --gold-light: #F5D87A;
+    --cream: #FAF7F0;
+    --white: #FFFFFF;
+    --gray-dark: #1A1A1A;
+    --gray-mid: #4A4A4A;
+    --gray-light: #F0F0F0;
+    --red-accent: #C0392B;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--gray-dark);
+    width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--green-deep);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .header-pattern {
+    position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(
+      60deg,
+      transparent,
+      transparent 40px,
+      rgba(0,160,80,0.08) 40px,
+      rgba(0,160,80,0.08) 41px
+    ),
+    repeating-linear-gradient(
+      -60deg,
+      transparent,
+      transparent 40px,
+      rgba(0,160,80,0.08) 40px,
+      rgba(0,160,80,0.08) 41px
+    );
+  }
+  .header-inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 36px 48px 32px;
+    gap: 32px;
+  }
+  .header-star {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--green-bright);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 72px;
+    line-height: 0.9;
+    color: var(--white);
+    letter-spacing: 2px;
+  }
+  .header h1 span {
+    color: var(--green-bright);
+    display: block;
+  }
+  .header-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    margin-top: 12px;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+  }
+  .header-badge {
+    background: var(--gold);
+    color: var(--green-deep);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: 1px;
+    padding: 16px 20px;
+    text-align: center;
+    line-height: 1.3;
+    border-radius: 4px;
+    min-width: 160px;
+  }
+  .header-badge .big {
+    font-size: 42px;
+    display: block;
+    line-height: 1;
+  }
+
+  /* ── SECTION LABELS ── */
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .section-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    color: var(--green-bright);
+    line-height: 1;
+    opacity: 0.4;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 2px;
+    color: var(--green-dark);
+    border-bottom: 3px solid var(--green-bright);
+    padding-bottom: 4px;
+  }
+
+  /* ── KPI ROW ── */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    background: var(--green-dark);
+    border-top: 3px solid var(--gold);
+  }
+  .kpi-item {
+    padding: 20px 16px;
+    text-align: center;
+    border-right: 1px solid rgba(255,255,255,0.1);
+    position: relative;
+  }
+  .kpi-item:last-child { border-right: none; }
+  .kpi-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 38px;
+    color: var(--gold);
+    line-height: 1;
+    display: block;
+  }
+  .kpi-label {
+    font-size: 10px;
+    color: rgba(255,255,255,0.65);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 1.3;
+  }
+
+  /* ── MAIN CONTENT ── */
+  .content {
+    padding: 40px 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 36px;
+    left: 10%;
+    right: 10%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--green-bright), var(--gold));
+    z-index: 0;
+  }
+  .tl-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 8px;
+    position: relative;
+    z-index: 1;
+  }
+  .tl-dot {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--green-bright);
+    border: 3px solid var(--white);
+    box-shadow: 0 0 0 3px var(--green-bright);
+    margin-bottom: 16px;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .tl-dot.gold { background: var(--gold); box-shadow: 0 0 0 3px var(--gold); }
+  .tl-year {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--green-dark);
+    margin-bottom: 6px;
+  }
+  .tl-card {
+    background: var(--white);
+    border: 1px solid var(--green-light);
+    border-radius: 8px;
+    padding: 14px 12px;
+    font-size: 11.5px;
+    line-height: 1.45;
+    color: var(--gray-mid);
+    width: 100%;
+    border-top: 3px solid var(--green-bright);
+  }
+  .tl-card.gold-top { border-top-color: var(--gold); }
+  .tl-card strong {
+    display: block;
+    font-size: 12px;
+    color: var(--green-dark);
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+
+  /* ── TWO COLUMNS ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--white);
+    border-radius: 10px;
+    padding: 24px;
+    border: 1px solid #E0EEE5;
+  }
+  .card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 1.5px;
+    color: var(--green-dark);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title .icon {
+    width: 30px; height: 30px;
+    background: var(--green-pale);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+
+  /* ── STRATEGY PILLARS ── */
+  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .pillar {
+    background: var(--green-dark);
+    border-radius: 10px;
+    padding: 22px 18px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  .pillar::before {
+    content: '';
+    position: absolute;
+    top: -20px; right: -20px;
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+  }
+  .pillar-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    color: rgba(255,255,255,0.12);
+    line-height: 1;
+    margin-bottom: -8px;
+  }
+  .pillar-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 19px;
+    letter-spacing: 1.5px;
+    color: var(--gold-light);
+    margin-bottom: 8px;
+  }
+  .pillar-text {
+    font-size: 11.5px;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.78);
+  }
+
+  /* ── USE CASES ── */
+  .use-cases-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+  }
+  .use-case-area {
+    background: var(--white);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #E0EEE5;
+  }
+  .uca-header {
+    padding: 14px 12px 10px;
+    text-align: center;
+  }
+  .uca-icon { font-size: 26px; display: block; margin-bottom: 6px; }
+  .uca-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    letter-spacing: 1px;
+    color: var(--white);
+  }
+  .uca-count {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    color: var(--white);
+    line-height: 1;
+    display: block;
+  }
+  .uca-body { padding: 12px; }
+  .uca-item {
+    font-size: 10.5px;
+    color: var(--gray-mid);
+    padding: 4px 0;
+    border-bottom: 1px solid var(--gray-light);
+    line-height: 1.35;
+  }
+  .uca-item:last-child { border-bottom: none; }
+
+  /* area colors */
+  .area-brewing .uca-header { background: #1B5E20; }
+  .area-packaging .uca-header { background: #2E7D32; }
+  .area-quality .uca-header { background: #388E3C; }
+  .area-maintenance .uca-header { background: #004D40; }
+  .area-utilities .uca-header { background: #00695C; }
+
+  /* ── ARCHITECTURE ── */
+  .arch-diagram {
+    background: var(--green-deep);
+    border-radius: 12px;
+    padding: 28px 32px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  .arch-diagram::before {
+    content: '';
+    position: absolute;
+    bottom: -40px; right: -40px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(0,168,80,0.1);
+  }
+  .arch-layers {
+    display: grid;
+    grid-template-rows: auto auto auto;
+    gap: 8px;
+    position: relative;
+    z-index: 1;
+  }
+  .arch-layer {
+    border-radius: 8px;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .arch-layer.global {
+    background: var(--gold);
+    color: var(--green-deep);
+  }
+  .arch-layer.bridge {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .arch-layer.local {
+    background: rgba(0,168,80,0.2);
+    border: 1px solid rgba(0,168,80,0.3);
+  }
+  .arch-layer-icon { font-size: 24px; flex-shrink: 0; }
+  .arch-layer-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+  }
+  .arch-layer-desc { font-size: 11px; opacity: 0.8; line-height: 1.4; }
+  .arch-arrow {
+    text-align: center;
+    font-size: 20px;
+    color: var(--green-bright);
+    margin: -2px 0;
+  }
+
+  /* ── LIGHTHOUSE ── */
+  .lighthouses {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .lighthouse {
+    background: var(--white);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid var(--green-bright);
+  }
+  .lh-header {
+    background: var(--green-dark);
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .lh-flag { font-size: 28px; }
+  .lh-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 1.5px;
+    color: var(--gold-light);
+  }
+  .lh-country { font-size: 11px; color: rgba(255,255,255,0.6); }
+  .lh-body { padding: 14px 16px; }
+  .lh-stat {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+  .lh-stat-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--green-dark);
+    line-height: 1;
+  }
+  .lh-stat-label { font-size: 11px; color: var(--gray-mid); }
+  .lh-desc { font-size: 11.5px; color: var(--gray-mid); line-height: 1.45; }
+
+  /* ── RESULTS GRID ── */
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .result-card {
+    border-radius: 10px;
+    padding: 20px 16px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .result-card.green { background: var(--green-dark); color: white; }
+  .result-card.gold { background: var(--gold); color: var(--green-deep); }
+  .result-card.light { background: var(--green-pale); color: var(--green-deep); }
+  .result-card.dark { background: var(--green-deep); color: white; }
+  .result-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    line-height: 1;
+    display: block;
+  }
+  .result-card.green .result-num { color: var(--gold-light); }
+  .result-card.gold .result-num { color: var(--green-deep); }
+  .result-card.light .result-num { color: var(--green-dark); }
+  .result-card.dark .result-num { color: var(--gold); }
+  .result-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-top: 4px;
+    line-height: 1.35;
+    opacity: 0.85;
+  }
+
+  /* ── QUOTE ── */
+  .quote-block {
+    background: var(--green-dark);
+    border-radius: 10px;
+    padding: 22px 28px;
+    border-left: 5px solid var(--gold);
+    position: relative;
+  }
+  .quote-block::before {
+    content: '"';
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 80px;
+    color: rgba(255,255,255,0.1);
+    position: absolute;
+    top: -10px; left: 16px;
+    line-height: 1;
+  }
+  .quote-text {
+    font-size: 14px;
+    color: white;
+    line-height: 1.55;
+    font-style: italic;
+    font-weight: 300;
+    position: relative;
+    z-index: 1;
+  }
+  .quote-author {
+    font-size: 11px;
+    color: var(--gold-light);
+    margin-top: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── ANALYTICS MATURITY ── */
+  .analytics-ladder {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    height: 180px;
+    padding: 0 8px;
+  }
+  .a-bar {
+    flex: 1;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 6px 0;
+    position: relative;
+    transition: all 0.3s;
+  }
+  .a-bar-1 { height: 40%; background: linear-gradient(180deg, #AED6F1, #85C1E9); }
+  .a-bar-2 { height: 60%; background: linear-gradient(180deg, #82E0AA, #27AE60); }
+  .a-bar-3 { height: 80%; background: linear-gradient(180deg, #F7DC6F, #D4AC0D); }
+  .a-bar-4 { height: 100%; background: linear-gradient(180deg, #F1948A, #E74C3C); }
+  .a-bar-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    color: rgba(255,255,255,0.9);
+    text-align: center;
+    line-height: 1.2;
+  }
+  .a-bar-where {
+    position: absolute;
+    bottom: -48px;
+    font-size: 10px;
+    color: var(--gray-mid);
+    text-align: center;
+    line-height: 1.3;
+    width: 100%;
+  }
+  .analytics-wrap {
+    padding-bottom: 52px;
+  }
+
+  /* ── NEXT STEPS ── */
+  .next-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  .next-item {
+    background: var(--white);
+    border-radius: 10px;
+    padding: 18px 16px;
+    border-top: 4px solid var(--green-bright);
+    text-align: center;
+  }
+  .next-item.gold-top { border-top-color: var(--gold); }
+  .next-icon { font-size: 28px; margin-bottom: 10px; display: block; }
+  .next-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    letter-spacing: 1px;
+    color: var(--green-dark);
+    margin-bottom: 6px;
+  }
+  .next-desc { font-size: 11px; color: var(--gray-mid); line-height: 1.45; }
+
+  /* ── KEY LESSONS ── */
+  .lessons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .lesson {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    background: var(--white);
+    border-radius: 10px;
+    padding: 16px;
+    border: 1px solid var(--green-light);
+  }
+  .lesson-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    color: var(--green-light);
+    line-height: 1;
+    flex-shrink: 0;
+    width: 36px;
+  }
+  .lesson-content {}
+  .lesson-title {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .lesson-text { font-size: 11.5px; color: var(--gray-mid); line-height: 1.45; }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--green-deep);
+    padding: 20px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 3px solid var(--gold);
+  }
+  .footer-left {
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.5;
+  }
+  .footer-brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--gold);
+    letter-spacing: 3px;
+  }
+
+  /* ── DIVIDERS ── */
+  .divider {
+    height: 2px;
+    background: linear-gradient(90deg, var(--green-bright), transparent);
+    border-radius: 2px;
+    margin: 4px 0 20px;
+  }
+
+  ul.bullet-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  ul.bullet-list li {
+    font-size: 11.5px;
+    color: var(--gray-mid);
+    line-height: 1.4;
+    padding-left: 14px;
+    position: relative;
+  }
+  ul.bullet-list li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--green-bright);
+    font-size: 10px;
+    top: 1px;
+  }
+
+  .motto-box {
+    background: linear-gradient(135deg, var(--green-dark), var(--green-deep));
+    border-radius: 10px;
+    padding: 20px 28px;
+    text-align: center;
+    border: 2px solid var(--gold);
+  }
+  .motto-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 3px;
+    color: var(--gold);
+  }
+  .motto-sub {
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+    margin-top: 4px;
+  }
+
+  .problem-solution {
+    display: grid;
+    grid-template-columns: 1fr 40px 1fr;
+    gap: 0;
+    align-items: center;
+  }
+  .ps-box {
+    border-radius: 10px;
+    padding: 18px;
+  }
+  .ps-box.problem { background: #FFF5F5; border: 1px solid #FFCCCC; }
+  .ps-box.solution { background: var(--green-pale); border: 1px solid var(--green-light); }
+  .ps-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+  }
+  .ps-box.problem .ps-label { color: #C0392B; }
+  .ps-box.solution .ps-label { color: var(--green-dark); }
+  .ps-arrow { text-align: center; font-size: 24px; color: var(--green-bright); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-pattern"></div>
+  <div class="header-inner">
+    <div>
+      <div class="header-star">★ IMD Business School · Caso IMD-7-2356 · Markoff & Seifert, 2022 ★</div>
+      <h1>HEINEKEN<span>LA CERVECERÍA</span><span style="color:var(--gold);">CONECTADA</span></h1>
+      <div class="header-sub">Cómo los soportes tecnológicos están potenciando las operaciones y aumentando los beneficios · IN5009 Estrategia de Operaciones · UTEC 2026</div>
+    </div>
+    <div style="display:flex;gap:16px;align-items:center;">
+      <div class="header-badge">
+        <span class="big">-10%</span>
+        COSTOS DE<br>CONVERSIÓN<br>(META 2025)
+      </div>
+      <div class="header-badge" style="background:var(--green-bright);color:white;">
+        <span class="big">32</span>
+        CASOS DE<br>USO<br>DIGITALES
+      </div>
+    </div>
+  </div>
+  <div class="kpi-row">
+    <div class="kpi-item">
+      <span class="kpi-val">1864</span>
+      <div class="kpi-label">Fundación<br>Ámsterdam</div>
+    </div>
+    <div class="kpi-item">
+      <span class="kpi-val">€19.7B</span>
+      <div class="kpi-label">Ingresos<br>2020</div>
+    </div>
+    <div class="kpi-item">
+      <span class="kpi-val">140</span>
+      <div class="kpi-label">Cervecerías<br>propias</div>
+    </div>
+    <div class="kpi-item">
+      <span class="kpi-val">300+</span>
+      <div class="kpi-label">Marcas de<br>cerveza</div>
+    </div>
+    <div class="kpi-item">
+      <span class="kpi-val">190</span>
+      <div class="kpi-label">Países<br>presentes</div>
+    </div>
+    <div class="kpi-item">
+      <span class="kpi-val">84K</span>
+      <div class="kpi-label">Empleados<br>globales</div>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- 01 TIMELINE -->
+  <div>
+    <div class="section-label">
+      <div class="section-num">01</div>
+      <div class="section-title">JOURNEY DE TRANSFORMACIÓN DIGITAL</div>
+    </div>
+    <div class="divider"></div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2008–2016</div>
+        <div class="tl-card">
+          <strong>Era TPM</strong>
+          Total Productive Management como programa estrella. OEE mejorando continuamente. Eficiencia energética y calidad en ascenso.
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2017</div>
+        <div class="tl-card">
+          <strong>El catalizador</strong>
+          Marc Gross (CSCO) detecta que las cervecerías líderes se están meseteando. Se identifica la transformación digital como "el siguiente paso".
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2018–2019</div>
+        <div class="tl-card">
+          <strong>Comunidad digital</strong>
+          David Pavlovic lideró pilotos bottom-up. ~2,000 personas en 50+ compañías operadoras. Coalición de los dispuestos.
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot gold"></div>
+        <div class="tl-year">2020</div>
+        <div class="tl-card gold-top">
+          <strong>Breakthrough</strong>
+          CMS propio en Polonia → OEE +4% en 2 meses. 16 líneas conectadas.
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot gold"></div>
+        <div class="tl-year">2022→</div>
+        <div class="tl-card gold-top">
+          <strong>Escala global</strong>
+          85 cervecerías retrofitadas. 4,100+ máquinas conectadas. 180B puntos de datos. IA y GenAI (CoBrain, 2026).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02+03 PROBLEMA + PILARES -->
+  <div class="two-col">
+    <div>
+      <div class="section-label">
+        <div class="section-num">02</div>
+        <div class="section-title">EL PROBLEMA</div>
+      </div>
+      <div class="divider"></div>
+      <div class="problem-solution">
+        <div class="ps-box problem">
+          <div class="ps-label">❌ DESAFÍO</div>
+          <ul class="bullet-list">
+            <li>TPM en meseta: las cervecerías top ya no podían mejorar más con métodos tradicionales</li>
+            <li>Datos reportados solo mensualmente y de forma agregada</li>
+            <li>Operadores sin visibilidad granular de lo ocurrido en las últimas 24 horas</li>
+            <li>IT enfocado en ERP y no disponible para experimentos de OT</li>
+            <li>Red heterogénea: 140 cervecerías con sistemas legacy muy distintos</li>
+          </ul>
+        </div>
+        <div class="ps-arrow">→</div>
+        <div class="ps-box solution">
+          <div class="ps-label">✅ SOLUCIÓN</div>
+          <ul class="bullet-list">
+            <li>Transformación digital liderada desde Supply Chain, no desde IT</li>
+            <li>Datos en tiempo real al nivel del operador de planta</li>
+            <li>Arquitectura flexible: datos locales + casos de uso universales en cloud</li>
+            <li>Comunidad digital bottom-up que experimenta y escala los ganadores</li>
+            <li>ROI calculado por consultora neutral para obtener financiamiento interno</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="section-label">
+        <div class="section-num">03</div>
+        <div class="section-title">LOS 3 PILARES ESTRATÉGICOS</div>
+      </div>
+      <div class="divider"></div>
+      <div class="pillars">
+        <div class="pillar">
+          <div class="pillar-num">01</div>
+          <div class="pillar-title">Digital Natives</div>
+          <div class="pillar-text">David Pavlovic (cofundador startup) contratado como Director de Transformación Digital. Defensor del valor de negocio digital, no experto en IT.</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">02</div>
+          <div class="pillar-title">People-Centric</div>
+          <div class="pillar-text">Foco en el "Connected Worker": poner datos y tecnología en manos del operador de planta. "Llevar el negocio a la tecnología, no al revés."</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">03</div>
+          <div class="pillar-title">Bottom-Up</div>
+          <div class="pillar-text">Innovación desde las personas y cervecerías hacia la gerencia. Champions digitales locales. Experimentación libre y autoseleccionada.</div>
+        </div>
+      </div>
+      <div style="margin-top:16px;">
+        <div class="motto-box">
+          <div class="motto-text">"DON'T GET READY, GET STARTED"</div>
+          <div class="motto-sub">El lema que lanzó la transformación digital de Heineken — Supply Chain Leadership Team, 2017</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 USE CASES -->
+  <div>
+    <div class="section-label">
+      <div class="section-num">04</div>
+      <div class="section-title">LOS 32 CASOS DE USO DIGITALES (DE 335 INDUSTRIA → 57 → 32)</div>
+    </div>
+    <div class="divider"></div>
+    <div class="use-cases-grid">
+      <div class="use-case-area area-brewing">
+        <div class="uca-header">
+          <div class="uca-title">BREWING</div>
+          <span class="uca-count">8</span>
+        </div>
+        <div class="uca-body">
+          <div class="uca-item">Monitoreo condiciones de fermentación</div>
+          <div class="uca-item">Alertas móviles en tiempo real</div>
+          <div class="uca-item">Plataforma colaborativa</div>
+          <div class="uca-item">Robots / Drones inspección</div>
+          <div class="uca-item">Machine self-optimization</div>
+        </div>
+      </div>
+      <div class="use-case-area area-packaging">
+        <div class="uca-header">
+          <div class="uca-title">PACKAGING</div>
+          <span class="uca-count">8</span>
+        </div>
+        <div class="uca-body">
+          <div class="uca-item">CMS: Estado de línea en tiempo real</div>
+          <div class="uca-item">Automatización de procesos</div>
+          <div class="uca-item">Sensores de máquina</div>
+          <div class="uca-item">App feedback instantáneo</div>
+          <div class="uca-item">AR soporte remoto</div>
+        </div>
+      </div>
+      <div class="use-case-area area-quality">
+        <div class="uca-header">
+          <div class="uca-title">QUALITY</div>
+          <span class="uca-count">3</span>
+        </div>
+        <div class="uca-body">
+          <div class="uca-item">Análisis de rechazos de calidad</div>
+          <div class="uca-item">Trazabilidad end-to-end</div>
+          <div class="uca-item">Tracking mejora continua</div>
+        </div>
+      </div>
+      <div class="use-case-area area-maintenance">
+        <div class="uca-header">
+          <div class="uca-title">MAINTENANCE</div>
+          <span class="uca-count">9</span>
+        </div>
+        <div class="uca-body">
+          <div class="uca-item">Mantenimiento predictivo (ML)</div>
+          <div class="uca-item">Diagnóstico con IA</div>
+          <div class="uca-item">VR para capacitación</div>
+          <div class="uca-item">AM logging y steering</div>
+          <div class="uca-item">Quick fixes algorítmicos</div>
+        </div>
+      </div>
+      <div class="use-case-area area-utilities">
+        <div class="uca-header">
+          <div class="uca-title">UTILITIES</div>
+          <span class="uca-count">4</span>
+        </div>
+        <div class="uca-body">
+          <div class="uca-item">Consumo de agua optimizado</div>
+          <div class="uca-item">Eficiencia energética</div>
+          <div class="uca-item">Info tiempo real a vendors</div>
+          <div class="uca-item">Control sostenibilidad</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 05+06 ARQUITECTURA + LIGHTHOUSE -->
+  <div class="two-col">
+    <div>
+      <div class="section-label">
+        <div class="section-num">05</div>
+        <div class="section-title">ARQUITECTURA TÉCNICA</div>
+      </div>
+      <div class="divider"></div>
+      <div class="arch-diagram">
+        <div style="font-family:'Bebas Neue';font-size:14px;letter-spacing:2px;color:var(--gold-light);margin-bottom:16px;opacity:0.8;">PRINCIPIO: DATOS LOCALES · CASOS DE USO UNIVERSALES</div>
+        <div class="arch-layers">
+          <div class="arch-layer global">
+            <div>
+              <div class="arch-layer-title">CAPA GLOBAL EN LA NUBE</div>
+              <div class="arch-layer-desc">Los 32 casos de uso corren aquí. Estandarizados y accesibles para todas las cervecerías. "Store" interno de casos de uso.</div>
+            </div>
+          </div>
+          <div class="arch-arrow">⇅</div>
+          <div class="arch-layer bridge">
+            <div>
+              <div class="arch-layer-title">CAPA DE CONEXIÓN ESTANDARIZADA</div>
+              <div class="arch-layer-desc">Cada fábrica conecta sus datos locales a esta capa. 180 mil millones de puntos de datos procesados.</div>
+            </div>
+          </div>
+          <div class="arch-arrow">⇅</div>
+          <div class="arch-layer local">
+            <div>
+              <div class="arch-layer-title">CAPA DE DATOS LOCAL (por cervecería)</div>
+              <div class="arch-layer-desc">Cada fábrica mapea SUS propios sensores, sistemas legacy y máquinas. No se obliga a estandarizar el hardware. 4,100+ máquinas conectadas.</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:16px;background:rgba(255,255,255,0.07);border-radius:6px;padding:10px 14px;">
+          <div style="font-size:11px;color:rgba(255,255,255,0.7);line-height:1.5;">
+            ✓ Despliegue paralelo en múltiples cervecerías &nbsp;|&nbsp; ✓ Sin estandarización de hardware &nbsp;|&nbsp; ✓ Flexible y escalable globalmente
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="section-label">
+        <div class="section-num">06</div>
+        <div class="section-title">CERVECERÍAS LIGHTHOUSE</div>
+      </div>
+      <div class="divider"></div>
+      <div class="lighthouses">
+        <div class="lighthouse">
+          <div class="lh-header">
+            <div class="lh-flag">🇵🇱</div>
+            <div>
+              <div class="lh-name">WARKA</div>
+              <div class="lh-country">Polonia · Primera Lighthouse</div>
+            </div>
+          </div>
+          <div class="lh-body">
+            <div class="lh-stat">
+              <span class="lh-stat-val">+4%</span>
+              <span class="lh-stat-label">OEE en 2 meses</span>
+            </div>
+            <div class="lh-desc">Planta de alto rendimiento donde se desarrolló el CMS. Primer MVP. El "big breakthrough" que hizo creer a todos en la transformación digital.</div>
+          </div>
+        </div>
+        <div class="lighthouse">
+          <div class="lh-header">
+            <div class="lh-flag">🇻🇳</div>
+            <div>
+              <div class="lh-name">HO CHI MINH</div>
+              <div class="lh-country">Vietnam · Asia Pacific</div>
+            </div>
+          </div>
+          <div class="lh-body">
+            <div class="lh-stat">
+              <span class="lh-stat-val">Asia</span>
+              <span class="lh-stat-label">Hub de innovación</span>
+            </div>
+            <div class="lh-desc">Genera casos de uso para mercados de alto crecimiento asiáticos. Condiciones de producción tropicales y alta demanda estacional.</div>
+          </div>
+        </div>
+        <div class="lighthouse">
+          <div class="lh-header">
+            <div class="lh-flag">🇲🇽</div>
+            <div>
+              <div class="lh-name">MONTERREY</div>
+              <div class="lh-country">México · América</div>
+            </div>
+          </div>
+          <div class="lh-body">
+            <div class="lh-stat">
+              <span class="lh-stat-val">LATAM</span>
+              <span class="lh-stat-label">Escala regional</span>
+            </div>
+            <div class="lh-desc">Lighthouse para América Latina y del Norte. Prueba casos de uso en mercados con alta variabilidad y diversidad operacional.</div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:14px;" class="card">
+        <div class="card-title">MODELO TECH COMPANY</div>
+        <ul class="bullet-list">
+          <li>Las lighthouse generan casos de uso que se despliegan a todas las fábricas</li>
+          <li>Si una cervecería local tiene mejor solución, puede proponerla a la comunidad</li>
+          <li>La Digital Transformation Office actúa como mediadora/orquestadora</li>
+          <li>Ciclo: caso de uso → MVP → piloto → fail fast → escalar ganadores</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 07+08 ANALYTICS + GOBERNANZA -->
+  <div class="two-col">
+    <div>
+      <div class="section-label">
+        <div class="section-num">07</div>
+        <div class="section-title">MADUREZ DE ANALYTICS</div>
+      </div>
+      <div class="divider"></div>
+      <div class="card analytics-wrap">
+        <div class="analytics-ladder">
+          <div class="a-bar a-bar-1">
+            <div class="a-bar-label">DESCRIPTIVO<br>¿Qué pasó?</div>
+            <div class="a-bar-where">CMS dashboards<br>OEE en tiempo real<br><strong style="color:var(--green-dark);">✓ HOY</strong></div>
+          </div>
+          <div class="a-bar a-bar-2">
+            <div class="a-bar-label">DIAGNÓSTICO<br>¿Por qué?</div>
+            <div class="a-bar-where">Análisis de rechazos<br>causas raíz<br><strong style="color:var(--green-dark);">✓ HOY</strong></div>
+          </div>
+          <div class="a-bar a-bar-3">
+            <div class="a-bar-label">PREDICTIVO<br>¿Qué pasará?</div>
+            <div class="a-bar-where">ML predicción<br>fallas equipos<br><strong style="color:#D4A017;">⟳ EN CURSO</strong></div>
+          </div>
+          <div class="a-bar a-bar-4">
+            <div class="a-bar-label">PRESCRIPTIVO<br>¿Qué hacer?</div>
+            <div class="a-bar-where">IA optimización<br>parámetros<br><strong style="color:#C0392B;">◎ ROADMAP</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="section-label">
+        <div class="section-num">08</div>
+        <div class="section-title">MODELO DE GOBERNANZA Y COSTOS</div>
+      </div>
+      <div class="divider"></div>
+      <div style="display:grid;grid-template-rows:1fr 1fr;gap:14px;height:calc(100% - 56px);">
+        <div class="card" style="border-top:3px solid var(--green-dark);">
+          <div class="card-title">DIGITAL TRANSFORMATION OFFICE (Centro)</div>
+          <ul class="bullet-list">
+            <li>Paga costos de <strong>desarrollo y CAPEX</strong></li>
+            <li>Garantiza coherencia estratégica global</li>
+            <li>Minimiza duplicidad de desarrollo entre mercados</li>
+            <li>Orquesta la comunidad global</li>
+          </ul>
+        </div>
+        <div class="card" style="border-top:3px solid var(--gold);">
+          <div class="card-title">OPERATING COMPANIES (Local)</div>
+          <ul class="bullet-list">
+            <li>Paga <strong>licencias y costos basados en actividad</strong></li>
+            <li>Mantiene autonomía local e innovación propia</li>
+            <li>Implementa desde el "store" según sus prioridades</li>
+            <li>Menor carga económica para cervecerías pequeñas</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 09 RESULTADOS -->
+  <div>
+    <div class="section-label">
+      <div class="section-num">09</div>
+      <div class="section-title">RESULTADOS: TECNOLOGÍA QUE POTENCIA OPERACIONES Y BENEFICIOS</div>
+    </div>
+    <div class="divider"></div>
+    <div class="results-grid">
+      <div class="result-card green">
+        <span class="result-num">+4%</span>
+        <div class="result-label">Mejora de OEE en las primeras 8 semanas (Piloto Polonia)</div>
+      </div>
+      <div class="result-card gold">
+        <span class="result-num">-10%</span>
+        <div class="result-label">Reducción en costos de conversión al desplegar los 32 casos</div>
+      </div>
+      <div class="result-card dark">
+        <span class="result-num">85</span>
+        <div class="result-label">Cervecerías retrofitadas con plataforma IoT conectada</div>
+      </div>
+      <div class="result-card light">
+        <span class="result-num">4,100+</span>
+        <div class="result-label">Máquinas conectadas a la plataforma de datos en la nube</div>
+      </div>
+      <div class="result-card light">
+        <span class="result-num">180B</span>
+        <div class="result-label">Puntos de datos en streaming hacia la nube global</div>
+      </div>
+      <div class="result-card dark">
+        <span class="result-num">2,000</span>
+        <div class="result-label">Personas en la comunidad digital (50+ compañías operadoras)</div>
+      </div>
+      <div class="result-card green">
+        <span class="result-num">↑</span>
+        <div class="result-label">Correlación entre herramientas digitales y felicidad de empleados</div>
+      </div>
+      <div class="result-card gold">
+        <span class="result-num">IT+SC</span>
+        <div class="result-label">IT pasó de obstáculo a aliado estratégico ("team of teams")</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10+11 PRÓXIMOS PASOS + LECCIONES -->
+  <div class="two-col">
+    <div>
+      <div class="section-label">
+        <div class="section-num">10</div>
+        <div class="section-title">PRÓXIMOS PASOS (2022–2026)</div>
+      </div>
+      <div class="divider"></div>
+      <div class="next-grid" style="grid-template-columns:1fr 1fr;">
+        <div class="next-item">
+          <div class="next-title">Machine Learning</div>
+          <div class="next-desc">Predicción de fallas de equipos antes de que ocurran. Mantenimiento predictivo con IA.</div>
+        </div>
+        <div class="next-item gold-top">
+          <div class="next-title">CoBrain (GenAI)</div>
+          <div class="next-desc">IA generativa para consultas en tiempo real desde planta. Lanzado en 2026 en 150+ cervecerías.</div>
+        </div>
+        <div class="next-item">
+          <div class="next-title">Impresión 3D</div>
+          <div class="next-desc">Repuestos y herramientas a medida. Especialmente útil en zonas remotas de África.</div>
+        </div>
+        <div class="next-item gold-top">
+          <div class="next-title">Optimización IA</div>
+          <div class="next-desc">Parámetros de proceso optimizados continuamente por algoritmos. Self-optimization.</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="section-label">
+        <div class="section-num">11</div>
+        <div class="section-title">LECCIONES CLAVE DEL CASO</div>
+      </div>
+      <div class="divider"></div>
+      <div class="lessons">
+        <div class="lesson">
+          <div class="lesson-num">01</div>
+          <div class="lesson-content">
+            <div class="lesson-title">Comunidad digitalmente nativa</div>
+            <div class="lesson-text">Traer digital natives externos + champions locales bottom-up fue más efectivo que esperar a que IT liderara. La cultura precede a la tecnología.</div>
+          </div>
+        </div>
+        <div class="lesson">
+          <div class="lesson-num">02</div>
+          <div class="lesson-content">
+            <div class="lesson-title">Escala sin estandarización forzada</div>
+            <div class="lesson-text">Datos locales + casos de uso universales = la clave. No obligar a las fábricas a cambiar su hardware, sino conectar lo que ya tienen.</div>
+          </div>
+        </div>
+        <div class="lesson">
+          <div class="lesson-num">03</div>
+          <div class="lesson-content">
+            <div class="lesson-title">ROI como lenguaje de sponsorship</div>
+            <div class="lesson-text">El breakthrough del CMS (+4% OEE) + los 32 casos con ROI de tercero neutral desbloqueó presupuesto e impulso interno.</div>
+          </div>
+        </div>
+        <div class="lesson">
+          <div class="lesson-num">04</div>
+          <div class="lesson-content">
+            <div class="lesson-title">Industry 4.0 es gestión, no solo tech</div>
+            <div class="lesson-text">El "Connected Worker" puso al operador en el centro. Felicidad + engagement correlacionaron con despliegue digital. Las personas son el motor.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUOTE FINAL -->
+  <div class="quote-block">
+    <div class="quote-text">
+      "Los pilotos crean credibilidad, pero el valor viene de la escala. Hemos conectado nuestras cervecerías como una empresa tecnológica tanto como una cervecera. No se trata de la tecnología en sí — se trata de las personas que la usan para ser mejores en lo que hacen."
+    </div>
+    <div class="quote-author">— Wiggert Deelen, Senior Director Global Supply Chain Transformation, The Heineken Company</div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-left">
+    "Brewing the joy of true togetherness to inspire a better world."<br>
+    Conectando tecnología y personas para crear momentos inolvidables en cada cerveza.
+  </div>
+  <div class="footer-brand">HEINEKEN ★</div>
+</div>
+
+</body>
+</html>

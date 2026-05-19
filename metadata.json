@@ -1,0 +1,6 @@
+{
+  "name": "Heineken: La Cervecería Conectada",
+  "description": "Infografía sobre el caso de transformación digital de Heineken.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
