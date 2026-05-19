@@ -344,10 +344,86 @@
 
   /* ── CARDS ── */
   .card {
-    background: var(--white);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
     border-radius: 10px;
     padding: 24px;
-    border: 1px solid #E0EEE5;
+    border: 1px solid rgba(224, 238, 229, 0.8);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+  }
+  
+  .interactive-card {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    z-index: 1;
+  }
+  .interactive-card:hover {
+    transform: scale(1.03) translateY(-6px);
+    box-shadow: 0 20px 40px rgba(0, 168, 80, 0.15);
+    border-color: var(--green-light);
+    z-index: 10;
+  }
+  
+  .interactive-card:hover .bullet-list li {
+    animation: list-pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  }
+  .interactive-card:hover .bullet-list li:nth-child(1) { animation-delay: 0.1s; }
+  .interactive-card:hover .bullet-list li:nth-child(2) { animation-delay: 0.2s; }
+  .interactive-card:hover .bullet-list li:nth-child(3) { animation-delay: 0.3s; }
+  .interactive-card:hover .bullet-list li:nth-child(4) { animation-delay: 0.4s; }
+  
+  @keyframes list-pop {
+    0% { transform: translateX(0); color: inherit; }
+    50% { transform: translateX(8px); color: var(--green-dark); }
+    100% { transform: translateX(5px); color: inherit; }
+  }
+  
+  /* Surprise animations for Analytics Chart on hover */
+  .interactive-card:hover .a-bar {
+    filter: brightness(1.1);
+  }
+  .interactive-card:hover .a-bar-1 { height: 45%; transition-delay: 0s; }
+  .interactive-card:hover .a-bar-2 { height: 68%; transition-delay: 0.05s; }
+  .interactive-card:hover .a-bar-3 { height: 88%; transition-delay: 0.1s; }
+  .interactive-card:hover .a-bar-4 { height: 105%; transition-delay: 0.15s; }
+  
+  .brush-bg-wrapper {
+    position: relative;
+    padding: 64px 48px;
+    margin: 60px -48px;
+    background-color: #0c4a20; /* Tono verde ligeramente más oscuro */
+    border-top: 3px solid var(--gold);
+    border-bottom: 3px solid var(--gold);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15); /* Sombra elegante, sin resplandor amarillo */
+  }
+  .brush-bg-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('./fondo-lineas.png');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.45; /* Opacidad moderada para que no sea tan claro */
+    mix-blend-mode: lighten; /* Mezcla sutil */
+    z-index: 0;
+    pointer-events: none;
+  }
+  .brush-bg-wrapper > * {
+    position: relative;
+    z-index: 1;
+  }
+  .brush-bg-wrapper .section-title {
+    color: var(--white);
+    border-bottom-color: var(--gold);
+    text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  }
+  .brush-bg-wrapper .divider {
+    background: linear-gradient(90deg, var(--gold), transparent);
+  }
+  .brush-bg-wrapper .section-num {
+    color: var(--gold);
+    opacity: 0.9;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.5);
   }
   .card-title {
     font-family: 'Bebas Neue', sans-serif;
@@ -368,41 +444,99 @@
   }
 
   /* ── STRATEGY PILLARS ── */
-  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .pillars { 
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 20px; 
+    perspective: 1000px; /* Para efecto 3D sutil */
+  }
   .pillar {
-    background: var(--green-dark);
-    border-radius: 10px;
-    padding: 22px 18px;
+    background: linear-gradient(135deg, rgba(10,80,35,1) 0%, rgba(5,60,25,1) 100%);
+    border-radius: 14px;
+    padding: 28px 22px;
     color: white;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2), inset 0 1px 1px rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-style: preserve-3d;
   }
+  .pillar:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 25px 45px rgba(0,50,15,0.4), 0 0 15px rgba(246,187,66,0.15), inset 0 1px 1px rgba(255,255,255,0.25);
+    border-color: rgba(246,187,66,0.3);
+  }
+  /* Decoración circular dinámica */
   .pillar::before {
     content: '';
     position: absolute;
-    top: -20px; right: -20px;
-    width: 80px; height: 80px;
+    top: -40px; right: -40px;
+    width: 140px; height: 140px;
     border-radius: 50%;
-    background: rgba(255,255,255,0.05);
+    background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0) 70%);
+    transition: all 0.6s ease;
+    z-index: 0;
+  }
+  /* Brillo animado diagonal (Glance) */
+  .pillar::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -150%;
+    width: 50%; height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-25deg);
+    transition: all 0.75s ease;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .pillar:hover::before {
+    transform: scale(1.2) translate(-15px, 15px);
+    background: radial-gradient(circle, rgba(246,187,66,0.1) 0%, rgba(255,255,255,0) 70%);
+  }
+  .pillar:hover::after {
+    left: 200%;
+    transition: all 0.7s ease-in-out;
   }
   .pillar-num {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 52px;
-    color: var(--white);
+    font-size: 64px;
+    color: rgba(255,255,255,0.95);
     line-height: 1;
-    margin-bottom: -8px;
+    margin-bottom: -6px;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transition: color 0.4s ease, transform 0.4s ease;
+    position: relative;
+    z-index: 3;
+  }
+  .pillar:hover .pillar-num {
+    color: var(--white);
+    transform: translateZ(15px);
   }
   .pillar-title {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 19px;
+    font-size: 22px;
     letter-spacing: 1.5px;
     color: var(--gold-light);
-    margin-bottom: 8px;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 3;
+    transition: transform 0.4s ease, color 0.4s ease;
+  }
+  .pillar:hover .pillar-title {
+    transform: translateZ(10px);
+    color: #ffd859;
   }
   .pillar-text {
-    font-size: 11.5px;
-    line-height: 1.5;
-    color: rgba(255,255,255,0.78);
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.85);
+    position: relative;
+    z-index: 3;
+    transition: transform 0.4s ease;
+  }
+  .pillar:hover .pillar-text {
+    transform: translateZ(5px);
   }
 
   /* ── USE CASES ── */
@@ -411,15 +545,39 @@
     grid-template-columns: repeat(5, 1fr);
     gap: 12px;
   }
+
+  @keyframes float-up-uca {
+    0% { transform: translateY(40px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+
   .use-case-area {
     background: var(--white);
     border-radius: 10px;
     overflow: hidden;
     border: 1px solid #E0EEE5;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.04);
+    transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+    animation: float-up-uca 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    opacity: 0;
   }
+  .use-case-area:nth-child(1) { animation-delay: 0.1s; }
+  .use-case-area:nth-child(2) { animation-delay: 0.25s; }
+  .use-case-area:nth-child(3) { animation-delay: 0.4s; }
+  .use-case-area:nth-child(4) { animation-delay: 0.55s; }
+  .use-case-area:nth-child(5) { animation-delay: 0.7s; }
+
+  .use-case-area:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 20px 30px rgba(0,0,0,0.12);
+    border-color: var(--gold-mid);
+    z-index: 10;
+  }
+
   .uca-header {
     padding: 14px 12px 10px;
     text-align: center;
+    transition: background 0.3s;
   }
   .uca-icon { font-size: 26px; display: block; margin-bottom: 6px; }
   .uca-title {
@@ -434,14 +592,28 @@
     color: var(--white);
     line-height: 1;
     display: block;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
+  .use-case-area:hover .uca-count {
+    transform: scale(1.15);
+    color: var(--gold-light);
+  }
+
   .uca-body { padding: 12px; }
   .uca-item {
     font-size: 10.5px;
     color: var(--gray-mid);
-    padding: 4px 0;
+    padding: 6px 0;
     border-bottom: 1px solid var(--gray-light);
     line-height: 1.35;
+    transition: all 0.2s ease;
+    cursor: default;
+  }
+  .uca-item:hover {
+    padding-left: 8px;
+    color: var(--green-dark);
+    background-color: #f9fdfa;
+    border-left: 2px solid var(--green-dark);
   }
   .uca-item:last-child { border-bottom: none; }
 
@@ -453,6 +625,20 @@
   .area-utilities .uca-header { background: #00695C; }
 
   /* ── ARCHITECTURE ── */
+  @keyframes pulse-ring {
+    0% { transform: scale(0.8); opacity: 0.1; }
+    50% { transform: scale(1.1); opacity: 0.2; border-radius: 40%; }
+    100% { transform: scale(0.8); opacity: 0.1; }
+  }
+  @keyframes arch-slide {
+    0% { transform: translateX(-40px); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+  }
+  @keyframes arch-arrow-bounce {
+    0%, 100% { transform: translateY(0); opacity: 0.6; }
+    50% { transform: translateY(-3px) scale(1.1); opacity: 1; color: var(--gold-light); }
+  }
+
   .arch-diagram {
     background: var(--green-deep);
     border-radius: 12px;
@@ -460,14 +646,16 @@
     color: white;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
   }
   .arch-diagram::before {
     content: '';
     position: absolute;
     bottom: -40px; right: -40px;
-    width: 200px; height: 200px;
+    width: 250px; height: 250px;
     border-radius: 50%;
     background: rgba(0,168,80,0.1);
+    animation: pulse-ring 8s infinite alternate ease-in-out;
   }
   .arch-layers {
     display: grid;
@@ -482,19 +670,68 @@
     display: flex;
     align-items: center;
     gap: 16px;
+    opacity: 0;
+    animation: arch-slide 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
   }
+  .arch-layer::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 50%; height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.05), transparent);
+    transform: skewX(-20deg);
+    transition: 0.5s;
+  }
+  .arch-layer:hover::after {
+    left: 150%;
+  }
+  .arch-layer:hover {
+    transform: translateX(8px) !important;
+    box-shadow: -4px 4px 12px rgba(0,0,0,0.15);
+    z-index: 10;
+  }
+  .arch-layers > .arch-layer:nth-child(1) { animation-delay: 0.2s; }
+  .arch-layers > .arch-layer:nth-child(3) { animation-delay: 0.6s; }
+  .arch-layers > .arch-layer:nth-child(5) { animation-delay: 1.0s; }
+
   .arch-layer.global {
     background: var(--gold);
     color: var(--green-deep);
   }
+  .arch-layer.global:hover { background: #F1C40F; }
+  
   .arch-layer.bridge {
     background: rgba(255,255,255,0.1);
     border: 1px solid rgba(255,255,255,0.2);
   }
+  .arch-layer.bridge:hover {
+    background: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.4);
+  }
+  
   .arch-layer.local {
     background: rgba(0,168,80,0.2);
     border: 1px solid rgba(0,168,80,0.3);
   }
+  .arch-layer.local:hover {
+    background: rgba(0,168,80,0.3);
+    border-color: rgba(0,168,80,0.5);
+  }
+  
+  .arch-arrow {
+    text-align: center;
+    font-size: 20px;
+    color: var(--green-bright);
+    margin: -2px 0;
+    opacity: 0;
+    animation: arch-arrow-bounce 2s infinite ease-in-out, arch-slide 0.5s forwards;
+  }
+  .arch-layers > .arch-arrow:nth-child(2) { animation-delay: 0.4s; }
+  .arch-layers > .arch-arrow:nth-child(4) { animation-delay: 0.8s; }
+
   .arch-layer-icon { font-size: 24px; flex-shrink: 0; }
   .arch-layer-title {
     font-family: 'Bebas Neue', sans-serif;
@@ -521,7 +758,30 @@
     border-radius: 10px;
     overflow: hidden;
     border: 2px solid var(--green-bright);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
   }
+  
+  .lighthouse:hover {
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: 0 25px 50px rgba(0,168,80,0.2);
+    border-color: var(--gold-mid);
+    z-index: 10;
+  }
+  
+  .tech-company-card {
+    border: 2px solid var(--green-pale);
+    transition: all 0.3s ease;
+  }
+
+  .tech-company-card:hover {
+    transform: scale(1.02) translateY(-4px);
+    box-shadow: 0 15px 30px rgba(0, 168, 80, 0.15);
+    border-color: var(--green-bright);
+  }
+  
   .lh-header {
     background: var(--green-dark);
     padding: 14px 16px;
@@ -554,28 +814,75 @@
   .lh-desc { font-size: 11.5px; color: var(--gray-mid); line-height: 1.45; }
 
   /* ── RESULTS GRID ── */
+  @keyframes scroll-right {
+    0% { transform: translateX(calc(-50% - 8px)); }
+    100% { transform: translateX(0); }
+  }
+  @keyframes scroll-left {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-50% - 8px)); }
+  }
+
   .results-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    overflow: hidden;
+  }
+  .marquee-track {
+    display: flex;
     gap: 16px;
+    width: max-content;
+  }
+  .marquee-track.track-right {
+    animation: scroll-right 60s linear infinite;
+  }
+  .marquee-track.track-left {
+    animation: scroll-left 60s linear infinite;
+  }
+  .marquee-track:hover {
+    animation-play-state: paused;
   }
   .result-card {
+    width: 260px;
+    height: 144px;
     border-radius: 10px;
     padding: 20px 16px;
     text-align: center;
-    position: relative;
-    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s;
+  }
+  .result-card:hover {
+    transform: scale(1.05);
+    z-index: 10;
   }
   .result-card.green { background: var(--green-dark); color: white; }
   .result-card.gold { background: var(--gold); color: var(--green-deep); }
   .result-card.light { background: var(--green-pale); color: var(--green-deep); }
   .result-card.dark { background: var(--green-deep); color: white; }
+  
+  @keyframes scale-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); filter: brightness(1.2); }
+    100% { transform: scale(1); }
+  }
   .result-num {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 52px;
     line-height: 1;
-    display: block;
+    display: inline-block;
+    animation: scale-pulse 2s infinite ease-in-out;
   }
+  
+  .result-card:nth-child(even) .result-num { animation-delay: 0.5s; }
+  .result-card:nth-child(odd) .result-num { animation-delay: 1.0s; }
+
   .result-card.green .result-num { color: var(--gold-light); }
   .result-card.gold .result-num { color: var(--green-deep); }
   .result-card.light .result-num { color: var(--green-dark); }
@@ -634,38 +941,46 @@
   }
   .a-bar {
     flex: 1;
-    border-radius: 8px 8px 0 0;
+    border-radius: 6px 6px 0 0;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    padding: 10px 6px 0;
+    padding: 12px 6px 0;
     position: relative;
-    transition: all 0.3s;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-origin: bottom;
+    box-shadow: 0 -4px 15px rgba(0,0,0,0.06), inset 0 2px 2px rgba(255,255,255,0.3);
+    border-top: 1px solid rgba(255,255,255,0.4);
+    border-left: 1px solid rgba(255,255,255,0.1);
+    border-right: 1px solid rgba(255,255,255,0.1);
   }
-  .a-bar-1 { height: 40%; background: linear-gradient(180deg, #AED6F1, #85C1E9); }
-  .a-bar-2 { height: 60%; background: linear-gradient(180deg, #82E0AA, #27AE60); }
-  .a-bar-3 { height: 80%; background: linear-gradient(180deg, #F7DC6F, #D4AC0D); }
-  .a-bar-4 { height: 100%; background: linear-gradient(180deg, #F1948A, #E74C3C); }
+  .a-bar-1 { height: 40%; background: linear-gradient(135deg, #5D9CEC 0%, #4A89DC 100%); }
+  .a-bar-2 { height: 60%; background: linear-gradient(135deg, #00A850 0%, #008040 100%); }
+  .a-bar-3 { height: 80%; background: linear-gradient(135deg, #F6BB42 0%, #E6A117 100%); }
+  .a-bar-4 { height: 100%; background: linear-gradient(135deg, #E9573F 0%, #DA4428 100%); }
   .a-bar-label {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 13px;
-    letter-spacing: 0.5px;
-    color: rgba(255,255,255,0.9);
+    font-size: 15px;
+    letter-spacing: 1px;
+    color: #FFFFFF;
     text-align: center;
-    line-height: 1.2;
+    line-height: 1.1;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.25);
   }
   .a-bar-where {
     position: absolute;
-    bottom: -48px;
-    font-size: 10px;
-    color: var(--gray-mid);
+    bottom: -54px;
+    font-size: 11px;
+    color: var(--gray-dark);
     text-align: center;
-    line-height: 1.3;
+    line-height: 1.4;
     width: 100%;
+    font-weight: 500;
   }
   .analytics-wrap {
-    padding-bottom: 52px;
+    padding-bottom: 64px;
+    position: relative;
   }
 
   /* ── NEXT STEPS ── */
@@ -680,8 +995,37 @@
     padding: 18px 16px;
     border-top: 4px solid var(--green-bright);
     text-align: center;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    z-index: 1;
+    overflow: hidden;
+  }
+  .next-item::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,168,80,0.05) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .next-item:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(0, 168, 80, 0.15);
+    border-top-width: 6px;
+    z-index: 10;
+  }
+  .next-item:hover::before {
+    opacity: 1;
   }
   .next-item.gold-top { border-top-color: var(--gold); }
+  .next-item.gold-top:hover {
+    box-shadow: 0 15px 30px rgba(212, 160, 23, 0.15);
+  }
+  .next-item.gold-top::before {
+    background: linear-gradient(180deg, rgba(212,160,23,0.05) 0%, transparent 100%);
+  }
+  
   .next-icon { font-size: 28px; margin-bottom: 10px; display: block; }
   .next-title {
     font-family: 'Bebas Neue', sans-serif;
@@ -689,8 +1033,9 @@
     letter-spacing: 1px;
     color: var(--green-dark);
     margin-bottom: 6px;
+    position: relative;
   }
-  .next-desc { font-size: 11px; color: var(--gray-mid); line-height: 1.45; }
+  .next-desc { font-size: 11px; color: var(--gray-mid); line-height: 1.45; position: relative; z-index: 2; }
 
   /* ── KEY LESSONS ── */
   .lessons {
@@ -706,6 +1051,35 @@
     border-radius: 10px;
     padding: 16px;
     border: 1px solid var(--green-light);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .lesson::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--green-bright);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.4s ease;
+  }
+  .lesson:hover {
+    transform: translateX(8px) scale(1.02);
+    box-shadow: 0 12px 25px rgba(0, 168, 80, 0.12);
+    border-color: var(--green-bright);
+    z-index: 10;
+  }
+  .lesson:hover::after {
+    transform: scaleY(1);
+  }
+  .lesson:hover .lesson-num {
+    color: var(--green-bright);
+    transform: scale(1.15) rotate(-5deg);
+    text-shadow: 0 4px 10px rgba(0,168,80,0.2);
   }
   .lesson-num {
     font-family: 'Bebas Neue', sans-serif;
@@ -714,6 +1088,9 @@
     line-height: 1;
     flex-shrink: 0;
     width: 36px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    z-index: 2;
   }
   .lesson-content {}
   .lesson-title {
@@ -778,22 +1155,51 @@
   }
 
   .motto-box {
-    background: linear-gradient(135deg, var(--green-dark), var(--green-deep));
-    border-radius: 10px;
-    padding: 20px 28px;
+    position: relative;
+    background: linear-gradient(135deg, rgba(15,90,40,0.95), rgba(5,50,20,0.95));
+    border-radius: 12px;
+    padding: 24px 32px;
     text-align: center;
-    border: 2px solid var(--gold);
+    border: 1px solid rgba(246,187,66,0.6);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.25), inset 0 0 20px rgba(246,187,66,0.05);
+    overflow: hidden;
+    transition: all 0.5s ease;
+  }
+  .motto-box:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 45px rgba(0,0,0,0.35), inset 0 0 30px rgba(246,187,66,0.1);
+    border-color: rgba(246,187,66,0.9);
+  }
+  /* Borde interior brillante */
+  .motto-box::before {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: 1px dashed rgba(246,187,66,0.3);
+    border-radius: 8px;
+    pointer-events: none;
+    transition: all 0.5s ease;
+  }
+  .motto-box:hover::before {
+    border-color: rgba(246,187,66,0.6);
+    background: rgba(246,187,66,0.02);
   }
   .motto-text {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 32px;
-    letter-spacing: 3px;
-    color: var(--white);
+    font-size: 36px;
+    letter-spacing: 4px;
+    color: var(--gold-light);
+    text-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    position: relative;
+    z-index: 2;
   }
   .motto-sub {
-    font-size: 12px;
-    color: rgba(255,255,255,0.6);
-    margin-top: 4px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    margin-top: 8px;
+    position: relative;
+    z-index: 2;
+    font-weight: 300;
   }
 
   .problem-solution {
@@ -802,25 +1208,88 @@
     gap: 16px;
   }
   .ps-box {
-    background: var(--white);
-    padding: 24px 28px;
+    padding: 28px 32px;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2), 0 2px 8px rgba(0,0,0,0.08); /* Sombra más pronunciada y premium */
+    backdrop-filter: blur(12px); /* Toque de glassmorphism */
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  /* Efecto de brillo de vidrio (Glass Shine) */
+  .ps-box::after {
+    content: '';
+    position: absolute;
+    top: 0; 
+    left: -150%;
+    width: 50%; 
+    height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-25deg);
+    transition: all 0.75s ease;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .ps-box:hover::after {
+    left: 200%;
+    transition: all 0.7s ease-in-out;
   }
   .ps-box:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 28px 50px rgba(0,0,0,0.3), 0 10px 20px rgba(0,0,0,0.15);
   }
   .ps-box.problem { 
+    background: #ffffff;
+    border: 1px solid rgba(255,255,255,0.8);
     border-left: 6px solid var(--red-accent);
-    border-radius: 4px 12px 12px 4px;
+    border-radius: 6px 16px 16px 6px;
+    z-index: 1;
+  }
+  .ps-box.problem::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('./fondo-rojo.jpg');
+    background-size: 100% 100%;
+    background-position: center;
+    opacity: 0.45;
+    z-index: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease, transform 0.8s ease;
+  }
+  .ps-box.problem:hover::before {
+    opacity: 0.65;
+    transform: scale(1.05);
+  }
+  .ps-box.problem > * {
+    position: relative;
+    z-index: 1;
   }
   .ps-box.solution { 
-    background: var(--green-pale);
+    background: #ffffff;
+    border: 1px solid rgba(255,255,255,0.8);
     border-left: 6px solid var(--green-bright);
-    border-radius: 4px 12px 12px 4px;
+    border-radius: 6px 16px 16px 6px;
+    z-index: 1;
+  }
+  .ps-box.solution::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('./fondo-hexagonos.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.85; /* Opacidad casi total para un verde más intenso */
+    z-index: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease, transform 0.8s ease;
+  }
+  .ps-box.solution:hover::before {
+    opacity: 1; /* 100% verde al hacer hover */
+    transform: scale(1.05);
+  }
+  .ps-box.solution > * {
+    position: relative;
+    z-index: 1;
   }
   .ps-label {
     font-family: 'Bebas Neue', sans-serif;
@@ -873,6 +1342,20 @@
   .comic-green-wrapper .pillar {
     box-shadow: 0 15px 35px rgba(0,0,0,0.3);
     border: 1px solid rgba(255,255,255,0.15);
+  }
+
+  /* ── ASTRONAUT SHOWCASE ── */
+  .astronaut-showcase {
+    padding: 0;
+  }
+  .astronaut-container {
+    width: 100%;
+    margin: 0 auto;
+  }
+  .astronaut-img {
+    width: 100%;
+    height: auto;
+    display: block;
   }
 </style>
 </head>
@@ -1149,7 +1632,7 @@
             </div>
           </div>
         </div>
-        <div style="margin-top:16px;background:rgba(255,255,255,0.07);border-radius:6px;padding:10px 14px;">
+        <div style="margin-top:16px;">
           <div style="font-size:11px;color:rgba(255,255,255,0.7);line-height:1.5;">
             ✓ Despliegue paralelo en múltiples cervecerías &nbsp;|&nbsp; ✓ Sin estandarización de hardware &nbsp;|&nbsp; ✓ Flexible y escalable globalmente
           </div>
@@ -1212,7 +1695,7 @@
           </div>
         </div>
       </div>
-      <div style="margin-top:14px;" class="card">
+      <div style="margin-top:14px;" class="card tech-company-card">
         <div class="card-title">MODELO TECH COMPANY</div>
         <ul class="bullet-list">
           <li>Las lighthouse generan casos de uso que se despliegan a todas las fábricas</li>
@@ -1225,14 +1708,15 @@
   </div>
 
   <!-- 07+08 ANALYTICS + GOBERNANZA -->
-  <div class="two-col">
-    <div>
-      <div class="section-label">
+  <div class="brush-bg-wrapper">
+    <div class="two-col">
+      <div>
+        <div class="section-label">
         <div class="section-num">07</div>
         <div class="section-title">MADUREZ DE ANALYTICS</div>
       </div>
       <div class="divider"></div>
-      <div class="card analytics-wrap">
+      <div class="card analytics-wrap interactive-card">
         <div class="analytics-ladder">
           <div class="a-bar a-bar-1">
             <div class="a-bar-label">DESCRIPTIVO<br>¿Qué pasó?</div>
@@ -1260,7 +1744,7 @@
       </div>
       <div class="divider"></div>
       <div style="display:grid;grid-template-rows:1fr 1fr;gap:14px;height:calc(100% - 56px);">
-        <div class="card" style="border-top:3px solid var(--green-dark);">
+        <div class="card interactive-card" style="border-top:3px solid var(--green-dark);">
           <div class="card-title">DIGITAL TRANSFORMATION OFFICE (Centro)</div>
           <ul class="bullet-list">
             <li>Paga costos de <strong>desarrollo y CAPEX</strong></li>
@@ -1269,7 +1753,7 @@
             <li>Orquesta la comunidad global</li>
           </ul>
         </div>
-        <div class="card" style="border-top:3px solid var(--gold);">
+        <div class="card interactive-card" style="border-top:3px solid var(--gold);">
           <div class="card-title">OPERATING COMPANIES (Local)</div>
           <ul class="bullet-list">
             <li>Paga <strong>licencias y costos basados en actividad</strong></li>
@@ -1281,6 +1765,7 @@
       </div>
     </div>
   </div>
+  </div>
 
   <!-- 09 RESULTADOS -->
   <div>
@@ -1289,7 +1774,8 @@
       <div class="section-title">RESULTADOS: TECNOLOGÍA QUE POTENCIA OPERACIONES Y BENEFICIOS</div>
     </div>
     <div class="divider"></div>
-    <div class="results-grid">
+        <div class="results-grid">
+      <div class="marquee-track track-right">
       <div class="result-card green">
         <span class="result-num">+4%</span>
         <div class="result-label">Mejora de OEE en las primeras 8 semanas (Piloto Polonia)</div>
@@ -1321,6 +1807,107 @@
       <div class="result-card gold">
         <span class="result-num">IT+SC</span>
         <div class="result-label">IT pasó de obstáculo a aliado estratégico ("team of teams")</div>
+      </div>
+      <div class="result-card green">
+        <span class="result-num">+4%</span>
+        <div class="result-label">Mejora de OEE en las primeras 8 semanas (Piloto Polonia)</div>
+      </div>
+      <div class="result-card gold">
+        <span class="result-num">-10%</span>
+        <div class="result-label">Reducción en costos de conversión al desplegar los 32 casos</div>
+      </div>
+      <div class="result-card dark">
+        <span class="result-num">85</span>
+        <div class="result-label">Cervecerías retrofitadas con plataforma IoT conectada</div>
+      </div>
+      <div class="result-card light">
+        <span class="result-num">4,100+</span>
+        <div class="result-label">Máquinas conectadas a la plataforma de datos en la nube</div>
+      </div>
+      <div class="result-card light">
+        <span class="result-num">180B</span>
+        <div class="result-label">Puntos de datos en streaming hacia la nube global</div>
+      </div>
+      <div class="result-card dark">
+        <span class="result-num">2,000</span>
+        <div class="result-label">Personas en la comunidad digital (50+ compañías operadoras)</div>
+      </div>
+      <div class="result-card green">
+        <span class="result-num">↑</span>
+        <div class="result-label">Correlación entre herramientas digitales y felicidad de empleados</div>
+      </div>
+      <div class="result-card gold">
+        <span class="result-num">IT+SC</span>
+        <div class="result-label">IT pasó de obstáculo a aliado estratégico ("team of teams")</div>
+      </div>
+
+      </div>
+      <div class="marquee-track track-left">
+      <div class="result-card green">
+        <span class="result-num">+4%</span>
+        <div class="result-label">Mejora de OEE en las primeras 8 semanas (Piloto Polonia)</div>
+      </div>
+      <div class="result-card gold">
+        <span class="result-num">-10%</span>
+        <div class="result-label">Reducción en costos de conversión al desplegar los 32 casos</div>
+      </div>
+      <div class="result-card dark">
+        <span class="result-num">85</span>
+        <div class="result-label">Cervecerías retrofitadas con plataforma IoT conectada</div>
+      </div>
+      <div class="result-card light">
+        <span class="result-num">4,100+</span>
+        <div class="result-label">Máquinas conectadas a la plataforma de datos en la nube</div>
+      </div>
+      <div class="result-card light">
+        <span class="result-num">180B</span>
+        <div class="result-label">Puntos de datos en streaming hacia la nube global</div>
+      </div>
+      <div class="result-card dark">
+        <span class="result-num">2,000</span>
+        <div class="result-label">Personas en la comunidad digital (50+ compañías operadoras)</div>
+      </div>
+      <div class="result-card green">
+        <span class="result-num">↑</span>
+        <div class="result-label">Correlación entre herramientas digitales y felicidad de empleados</div>
+      </div>
+      <div class="result-card gold">
+        <span class="result-num">IT+SC</span>
+        <div class="result-label">IT pasó de obstáculo a aliado estratégico ("team of teams")</div>
+      </div>
+      <div class="result-card green">
+        <span class="result-num">+4%</span>
+        <div class="result-label">Mejora de OEE en las primeras 8 semanas (Piloto Polonia)</div>
+      </div>
+      <div class="result-card gold">
+        <span class="result-num">-10%</span>
+        <div class="result-label">Reducción en costos de conversión al desplegar los 32 casos</div>
+      </div>
+      <div class="result-card dark">
+        <span class="result-num">85</span>
+        <div class="result-label">Cervecerías retrofitadas con plataforma IoT conectada</div>
+      </div>
+      <div class="result-card light">
+        <span class="result-num">4,100+</span>
+        <div class="result-label">Máquinas conectadas a la plataforma de datos en la nube</div>
+      </div>
+      <div class="result-card light">
+        <span class="result-num">180B</span>
+        <div class="result-label">Puntos de datos en streaming hacia la nube global</div>
+      </div>
+      <div class="result-card dark">
+        <span class="result-num">2,000</span>
+        <div class="result-label">Personas en la comunidad digital (50+ compañías operadoras)</div>
+      </div>
+      <div class="result-card green">
+        <span class="result-num">↑</span>
+        <div class="result-label">Correlación entre herramientas digitales y felicidad de empleados</div>
+      </div>
+      <div class="result-card gold">
+        <span class="result-num">IT+SC</span>
+        <div class="result-label">IT pasó de obstáculo a aliado estratégico ("team of teams")</div>
+      </div>
+
       </div>
     </div>
   </div>
@@ -1388,6 +1975,13 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- ASTRONAUTA AERO-FLOTANTE -->
+  <div class="astronaut-showcase" style="margin: 60px 0;">
+    <div class="astronaut-container">
+      <img src="/hei.jpg" alt="Heineken Explorer en Zero Gravity" class="astronaut-img">
     </div>
   </div>
 
