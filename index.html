@@ -162,6 +162,58 @@
     line-height: 1.3;
   }
 
+  /* ── HOVER EFFECTS PARA LA SECCIÓN HEADER Y KPIs ── */
+  .header-pattern {
+    transition: filter 0.4s ease;
+  }
+  .header:hover .header-pattern {
+    filter: blur(8px);
+  }
+  .header h1, .header-sub, .header-star {
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), text-shadow 0.4s ease;
+    transform-origin: left center;
+  }
+  .header:hover h1 {
+    transform: scale(1.03);
+    text-shadow: 0 10px 20px rgba(0,0,0,0.5);
+  }
+  .header:hover .header-sub {
+    transform: scale(1.01);
+  }
+  .header-badge {
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+    position: relative; /* to allow z-index pop */
+  }
+  .header-badge:hover {
+    transform: scale(1.1);
+    box-shadow: 0 15px 25px rgba(0,0,0,0.4);
+    z-index: 2;
+  }
+
+  .kpi-row:hover .kpi-item:not(:hover) {
+    filter: blur(5px);
+    opacity: 0.6;
+  }
+  .kpi-item {
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.4s ease, opacity 0.4s ease, background 0.4s ease, border-radius 0.4s ease, box-shadow 0.4s ease;
+    transform-origin: center center;
+  }
+  .kpi-item:hover {
+    transform: scale(1.15);
+    background: var(--green-deep);
+    z-index: 10;
+    border-radius: 8px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+    border: 1px solid var(--gold);
+    border-right: 1px solid var(--gold) !important;
+  }
+  .kpi-val, .kpi-label {
+    transition: transform 0.3s ease;
+  }
+  .kpi-item:hover .kpi-val {
+    transform: scale(1.1);
+  }
+
   /* ── MAIN CONTENT ── */
   .content {
     padding: 40px 48px;
@@ -233,6 +285,59 @@
     font-weight: 600;
   }
 
+  /* ── EFECTOS INTERACTIVOS TIMELINE ── */
+  .timeline::before {
+    background: linear-gradient(90deg, var(--green-bright), var(--gold), var(--green-bright));
+    background-size: 200% auto;
+    animation: energyFlow 3s linear infinite;
+  }
+  @keyframes energyFlow {
+    0% { background-position: 0% center; }
+    100% { background-position: -200% center; }
+  }
+  .timeline:hover .tl-item:not(:hover) {
+    filter: blur(3px) grayscale(0.4);
+    opacity: 0.4;
+  }
+  .tl-item {
+    transition: filter 0.4s ease, opacity 0.4s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  .tl-item:hover {
+    transform: translateY(-10px);
+    z-index: 10;
+  }
+  .tl-dot {
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, background 0.4s ease;
+  }
+  .tl-item:hover .tl-dot {
+    transform: scale(1.5);
+    box-shadow: 0 0 0 5px var(--cream), 0 0 25px 5px rgba(0,168,80,0.6);
+  }
+  .tl-item:hover .tl-dot.gold {
+    box-shadow: 0 0 0 5px var(--cream), 0 0 25px 5px rgba(212,160,23,0.6);
+  }
+  .tl-year {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s ease;
+  }
+  .tl-item:hover .tl-year {
+    transform: scale(1.25);
+    color: var(--green-bright);
+  }
+  .tl-item:hover:nth-child(n+4) .tl-year {
+    color: var(--gold);
+  }
+  .tl-card {
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, border-color 0.3s ease;
+  }
+  .tl-item:hover .tl-card {
+    box-shadow: 0 20px 40px -5px rgba(0,0,0,0.15);
+    border-color: var(--green-bright);
+    transform: scale(1.03);
+  }
+  .tl-item:hover .tl-card.gold-top {
+    border-color: var(--gold);
+  }
+
   /* ── TWO COLUMNS ── */
   .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
   .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
@@ -283,7 +388,7 @@
   .pillar-num {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 52px;
-    color: rgba(255,255,255,0.12);
+    color: var(--white);
     line-height: 1;
     margin-bottom: -8px;
   }
@@ -683,7 +788,7 @@
     font-family: 'Bebas Neue', sans-serif;
     font-size: 32px;
     letter-spacing: 3px;
-    color: var(--gold);
+    color: var(--white);
   }
   .motto-sub {
     font-size: 12px;
@@ -692,26 +797,83 @@
   }
 
   .problem-solution {
-    display: grid;
-    grid-template-columns: 1fr 40px 1fr;
-    gap: 0;
-    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
   .ps-box {
-    border-radius: 10px;
-    padding: 18px;
+    background: var(--white);
+    padding: 24px 28px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
   }
-  .ps-box.problem { background: #FFF5F5; border: 1px solid #FFCCCC; }
-  .ps-box.solution { background: var(--green-pale); border: 1px solid var(--green-light); }
+  .ps-box:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+  }
+  .ps-box.problem { 
+    border-left: 6px solid var(--red-accent);
+    border-radius: 4px 12px 12px 4px;
+  }
+  .ps-box.solution { 
+    background: var(--green-pale);
+    border-left: 6px solid var(--green-bright);
+    border-radius: 4px 12px 12px 4px;
+  }
   .ps-label {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 16px;
-    letter-spacing: 1.5px;
-    margin-bottom: 8px;
+    font-size: 24px;
+    letter-spacing: 2px;
+    margin-bottom: 14px;
   }
-  .ps-box.problem .ps-label { color: #C0392B; }
+  .ps-box.problem .ps-label { color: var(--red-accent); }
   .ps-box.solution .ps-label { color: var(--green-dark); }
-  .ps-arrow { text-align: center; font-size: 24px; color: var(--green-bright); }
+  
+  .ps-box ul.bullet-list li {
+    color: var(--gray-dark);
+    font-size: 12.5px;
+    margin-bottom: 8px;
+    line-height: 1.45;
+  }
+  .ps-box ul.bullet-list li:last-child { margin-bottom: 0; }
+  .ps-box.problem ul.bullet-list li::before { color: var(--red-accent); font-size: 14px; top: 0px; }
+  .ps-box.solution ul.bullet-list li::before { color: var(--green-bright); font-size: 14px; top: 0px; }
+
+  /* ── COMIC GREEN SECTION WRAPPER ── */
+  .comic-green-wrapper {
+    background-color: #0d803a;
+    background-image: 
+      radial-gradient(circle at center, transparent 0%, rgba(0, 40, 15, 0.7) 120%),
+      repeating-linear-gradient(45deg, rgba(255,255,255,0.08) 0px, rgba(255,255,255,0.08) 2px, transparent 2px, transparent 60px),
+      repeating-linear-gradient(45deg, transparent 0, transparent 90px, rgba(0,0,0,0.12) 90px, rgba(0,0,0,0.12) 180px),
+      radial-gradient(rgba(0,0,0,0.15) 2px, transparent 2.5px);
+    background-size: 100% 100%, 100% 100%, 100% 100%, 12px 12px;
+    padding: 56px 48px;
+    margin: 50px -48px;
+    position: relative;
+    border-top: 4px solid var(--gold);
+    border-bottom: 4px solid var(--gold);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  }
+  .comic-green-wrapper .section-title {
+    color: var(--white);
+    border-bottom-color: var(--gold);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  }
+  .comic-green-wrapper .section-num {
+    color: var(--gold);
+    opacity: 0.9;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  }
+  .comic-green-wrapper .divider {
+    background: linear-gradient(90deg, var(--gold), transparent);
+  }
+  .comic-green-wrapper .pillar {
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.15);
+  }
 </style>
 </head>
 <body>
@@ -818,7 +980,8 @@
   </div>
 
   <!-- 02+03 PROBLEMA + PILARES -->
-  <div class="two-col">
+  <div class="comic-green-wrapper">
+    <div class="two-col">
     <div>
       <div class="section-label">
         <div class="section-num">02</div>
@@ -827,7 +990,7 @@
       <div class="divider"></div>
       <div class="problem-solution">
         <div class="ps-box problem">
-          <div class="ps-label">❌ DESAFÍO</div>
+          <div class="ps-label">DESAFÍO</div>
           <ul class="bullet-list">
             <li>TPM en meseta: las cervecerías top ya no podían mejorar más con métodos tradicionales</li>
             <li>Datos reportados solo mensualmente y de forma agregada</li>
@@ -836,9 +999,8 @@
             <li>Red heterogénea: 140 cervecerías con sistemas legacy muy distintos</li>
           </ul>
         </div>
-        <div class="ps-arrow">→</div>
         <div class="ps-box solution">
-          <div class="ps-label">✅ SOLUCIÓN</div>
+          <div class="ps-label">SOLUCIÓN</div>
           <ul class="bullet-list">
             <li>Transformación digital liderada desde Supply Chain, no desde IT</li>
             <li>Datos en tiempo real al nivel del operador de planta</li>
@@ -879,6 +1041,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 
   <!-- 04 USE CASES -->
